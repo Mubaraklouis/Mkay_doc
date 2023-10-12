@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
 use \App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +42,7 @@ class DatabaseSeeder extends Seeder
         *disableForiengKey() : this function disables foriengn keys checks
         *enableForiengKey() :this function enables foreign key checks
         **/
-        truncate();
+        //  truncate();
          disableForiegnKey();
        User::factory(10)->create();
 
@@ -48,6 +51,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'mubaraklouis@gmail.com',
             'password' =>bcrypt('Louis1234')
         ]);
+
+        Comment::factory()->create([
+            "user_id"=>1,
+            "post_id"=>2,
+            "body"=>"what is up"
+        ]);
+        Post::factory(10)->create();
 
         enableForiegnKey();
 

@@ -15,8 +15,11 @@ return new class extends Migration
 
 
 
-            $table->foreignId('user_id')->on('users')->reference('id')->casecadeOnDelete;
-            $table->foreignId('post_id')->on('posts')->reference('id')->casecadeOnDelete;
+            $table->foreignId('user_id')->index();
+            $table->foreignId('post_id')->index();
+            $table->foreign('post_id')->on('posts')->references('id')->casecadeOnDelete();
+            $table->foreign('user_id')->on('users')->references('id')->casecadeOnDelete();
+            $table->primary(['user_id','post_id']);
         });
     }
 
