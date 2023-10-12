@@ -42,4 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /*
+    * posts(): get all the post by a specific user
+    *comments() :get all the comments by apecific user
+    */
+
+    public function posts(){
+        return $this->hasMany(Post::class,'post_id');
+    }
+
 }

@@ -8,19 +8,23 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Database\Seeder;
 use \App\Models\User;
+use \Database\Seeders\Traits\CheckForiegnkey;
 use Illuminate\Support\Facades\DB;
 
 
-function disableForiegnKey(){
+function disableForiegnKey()
+{
     DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 }
 
-function enableForiegnKey(){
+function enableForiegnKey()
+{
     DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 }
 
 
-function truncate(){
+function delete_db()
+{
     DB::table('users')->truncate();
 }
 
@@ -28,7 +32,6 @@ function truncate(){
 
 class DatabaseSeeder extends Seeder
 {
-
 
 
     /**
@@ -42,26 +45,22 @@ class DatabaseSeeder extends Seeder
         *disableForiengKey() : this function disables foriengn keys checks
         *enableForiengKey() :this function enables foreign key checks
         **/
-        //  truncate();
-         disableForiegnKey();
-       User::factory(10)->create();
+      disableForiegnKey();
+        delete_db();
+
+        User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Mubarak Admin',
             'email' => 'mubaraklouis@gmail.com',
-            'password' =>bcrypt('Louis1234')
+            'password' => bcrypt('Louis1234')
         ]);
 
-        Comment::factory()->create([
-            "user_id"=>1,
-            "post_id"=>2,
-            "body"=>"what is up"
-        ]);
+        Comment::factory(3)->create();
         Post::factory(10)->create();
 
-        enableForiegnKey();
 
 
-
+      enableForiegnKey();
     }
 }

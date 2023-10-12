@@ -1,9 +1,9 @@
 <?
-namespace Database\Seeders\traits;
+namespace Database\Seeders\Traits;
 
 use Illuminate\Support\Facades\DB;
 
-Trait CheckForiegnkey{
+trait CheckForiegnkey{
 
     public function disableForiegnKey(){
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');

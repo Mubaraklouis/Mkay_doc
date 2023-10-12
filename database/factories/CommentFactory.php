@@ -19,7 +19,7 @@ class CommentFactory extends Factory
         return [
             "user_id"=>1,
             "post_id"=>1,
-            "body"=>"what is good"
+            "body"=>fake()->text()
         ];
     }
 }
