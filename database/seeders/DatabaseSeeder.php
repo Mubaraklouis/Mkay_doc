@@ -56,8 +56,16 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('Louis1234')
         ]);
 
-        Comment::factory(3)->create();
-        Post::factory(10)->create();
+
+        /*
+        * postSeeder: => this is the class responsible for the seeding fake posts
+        * commentSeeder=> this commentSeeder the class responsible for the seeding fake comments
+        */
+
+        $this->call([
+           PostSeeder::class,
+           CommentSeeder::class
+        ]);
 
 
 

@@ -41,15 +41,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+
     ];
 
     /*
-    * posts(): get all the post by a specific user
+    * post(): get all the post by a specific user
     *comments() :get all the comments by apecific user
     */
 
-    public function posts(){
-        return $this->hasMany(Post::class,'post_id');
+    public function post()
+    {
+      return $this->belongsToMany(Post::class,'posts_users','post_id','user_id');
     }
 
+    public function comments(){
+        return $this->hasMany(Comment::class,'user_id');
+    }
 }

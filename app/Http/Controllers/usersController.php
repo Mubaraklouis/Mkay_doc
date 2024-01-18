@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class usersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all the users in the database
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return
+            [
+                "users" => $user::all()
+            ];
     }
 
     /**
@@ -19,7 +23,7 @@ class usersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    dd($request->all());
     }
 
     /**
@@ -27,7 +31,13 @@ class usersController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+
+        return
+            [
+                "user" => User::find($id)
+
+            ];
     }
 
     /**

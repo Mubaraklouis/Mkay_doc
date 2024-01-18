@@ -11,14 +11,22 @@ class PostFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
+     * postTile(): create a title for the post
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
            "title"=>fake()->name(),
-           "body"=>fake()->text(),
+           "body"=>fake()->text()
         ];
     }
+
+    function postTitle()
+    {
+        return $this->state([
+            'title'=>'untitled'
+        ]);
+    }
+
 }
