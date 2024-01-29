@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class usersController extends Controller
 {
@@ -12,10 +13,12 @@ class usersController extends Controller
      */
     public function index(User $user)
     {
-        return
-            [
-                "users" => $user::all()
-            ];
+        $users = $user->query()->get();
+      return new JsonResource(
+        [
+            "data" => $users
+        ]
+      );
     }
 
     /**
@@ -23,7 +26,24 @@ class usersController extends Controller
      */
     public function store(Request $request)
     {
-    dd($request->all());
+        $validated = $request->validate(
+            [
+                "name" =>"required",
+                "email" =>"required",
+                "password" =>"required"
+            ]
+        );
+
+
+        User::query()->create($validated);
+
+        return new JsonResource(
+            [
+                "data" => $validated
+            ]
+        );
+
+
     }
 
     /**
@@ -31,13 +51,13 @@ class usersController extends Controller
      */
     public function show(string $id)
     {
-
-
-        return
+        $user = User::query()->find($id);
+        return new JsonResource(
             [
-                "user" => User::find($id)
+                "data"=> $user
+            ]
+        );
 
-            ];
     }
 
     /**
@@ -45,14 +65,38 @@ class usersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate(
+            [
+                "name" =>"required",
+                "email" =>"required",
+                "password" =>"required"
+            ]
+            );
+            $user = User::query()->find($id);
+
+            $user->update($validated);
+            return new JsonResource(
+
+                [
+                    "data" => $validated
+                ]
+            );
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
+
     {
-        //
+        $user = User::query()->find($id);
+        $user->delete();
+        return new JsonResource(
+            [
+                "data" => $user
+            ]
+        );
+
     }
 }

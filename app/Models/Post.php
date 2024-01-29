@@ -35,6 +35,7 @@ class Post extends Model
     {
         return strtoupper($this->title);
     }
+   protected $fillable =['title','body'];
 
     use HasFactory;
 }

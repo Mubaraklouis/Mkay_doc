@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentController extends Controller
 {
@@ -13,7 +14,13 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::query()->get();
+
+        return new JsonResource(
+            [
+                "data" => $comments
+            ]
+        );
     }
 
     /**
@@ -21,7 +28,15 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $comment = $request->validated();
+        Comment::query()->create($comment);
+
+        return new JsonResource(
+
+            [
+                "data" => $comment
+            ]
+        );
     }
 
     /**
@@ -29,7 +44,11 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        //
+        return new JsonResource(
+            [
+                "data" => $comment
+            ]
+        );
     }
 
     /**
@@ -37,7 +56,14 @@ class CommentController extends Controller
      */
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+
+        $comment->query()->update($request->validated());
+        return new JsonResource(
+
+            [
+                "data" => $request->validated()
+            ]
+        );
     }
 
     /**
@@ -45,6 +71,11 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return new JsonResource(
+            [
+                "data" => $comment
+            ]
+        );
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//working with usrs resources here
-require __DIR__ . '/api/users.php';
+//working with users resources here
+route::prefix('v1')->group(function () {
+ require  __DIR__ . '/api/users.php';
+ require  __DIR__ . '/api/comments.php';
+ require  __DIR__ . '/api/posts.php';
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
