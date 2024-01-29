@@ -5,38 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\commentResource;
+use App\Repositories\CommentsRepository;
 
 class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * return commentResource collection
      */
     public function index()
     {
         $comments = Comment::query()->get();
 
-        return new JsonResource(
-            [
-                "data" => $comments
-            ]
-        );
+      return  commentResource::collection($comments);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
+    public function store(StoreCommentRequest $request,CommentsRepository $commentsRepository)
     {
-        $comment = $request->validated();
-        Comment::query()->create($comment);
-
-        return new JsonResource(
-
-            [
-                "data" => $comment
-            ]
-        );
+      $commentsRepository->create($request->validated());
     }
 
     /**
@@ -44,11 +34,7 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        return new JsonResource(
-            [
-                "data" => $comment
-            ]
-        );
+        return new commentResource($comment);
     }
 
     /**
@@ -58,12 +44,8 @@ class CommentController extends Controller
     {
 
         $comment->query()->update($request->validated());
-        return new JsonResource(
+        return new commentResource($comment);
 
-            [
-                "data" => $request->validated()
-            ]
-        );
     }
 
     /**
@@ -72,10 +54,8 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
-        return new JsonResource(
-            [
-                "data" => $comment
-            ]
-        );
+
+        return new commentResource($comment);
+
     }
 }
