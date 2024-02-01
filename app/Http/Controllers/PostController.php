@@ -31,9 +31,9 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      * @param StorePostRequest $request
      */
-    public function store(StorePostRequest $request, PostRepository $post)
+    public function store(StorePostRequest $request, PostRepository $postRepository)
     {
-        $post->store($request->validated());
+        $postRepository->store($request->validated());
 
     }
 
@@ -51,10 +51,14 @@ class PostController extends Controller
      * Update the specified resource in storage.
      * @return postResource
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post,PostRepository $postRepository)
     {
-        $post->query()->update($request->validated());
-        return new postResource($post);
+        // $post->query()->update($request->validated());
+
+        $postRepository->update($request->validated(),$post);
+
+
+        // return new postResource($post);
 
     }
 
