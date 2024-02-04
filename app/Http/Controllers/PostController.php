@@ -16,7 +16,7 @@ class PostController extends Controller
      * Display a listing of the resource.
      * return  @JsonResponse with all the posts
      */
-    public function index(Request $request)
+    public function index()
     {
 
         $pageSize = 10;
@@ -31,12 +31,14 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      * @param StorePostRequest $request
      */
-    public function store(StorePostRequest $request, PostRepository $postRepository)
+    public function store(StorePostRequest $request, PostRepository $postRepository,Post $post)
     {
-        $postRepository->store($request->validated());
+
+        $postRepository->store($request->validated(),$post);
+        return new postResource($post);
 
     }
-
+ 
 
     /**
      * Display the specified post by the id.
@@ -57,7 +59,6 @@ class PostController extends Controller
 
         $postRepository->update($request->validated(),$post);
 
-
         // return new postResource($post);
 
     }
@@ -65,9 +66,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post, PostRepository $postRepository)
     {
-        $post->delete();
+
+        $postRepository->forceDelete($post);
         return new postResource($post);
     }
 }

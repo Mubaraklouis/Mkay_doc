@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\postCreatedEvent;
+use App\Events\postDeletedEvent;
 use App\Exceptions\postExcerption;
 use App\Http\Resources\postResource;
 use App\Models\Post;
@@ -17,11 +18,11 @@ class PostRepository
     * @return postRepository
     */
 
-    public function  store(array $attributes)
+    public function  store(array $attributes, Post $post)
     {
-        $created = DB::transaction(function () use ($attributes) {
+        DB::transaction(function () use ($attributes, $post) {
 
-            $created = Post::query()->create(
+            $post->query()->create(
                 [
 
                     'title' => data_get($attributes, 'title'),
@@ -29,46 +30,61 @@ class PostRepository
                 ]
             );
             //syncing the post with the user who created it
-            $created->users()->sync(data_get($attributes, 'user_ids'));
-            if (!$created) {
+            $post->users()->sync(data_get($attributes, 'user_ids'));
+            if (!$post) {
                 throw new postExcerption("post not created", 500);
             }
+
+            //fire an event to the user with the email user createdv
+            event(new postCreatedEvent($post));
         });
 
-
-        //fire an event to the user with the email user created
-        event(new postCreatedEvent($created));
-        return new postResource($created);
     }
 
-
-      /*
+    /*
     * store() updates new post in the database
     * @return postRepository
     */
 
-    public function update(array $attributes ,Post $post)
+    public function update(array $attributes, Post $post)
     {
-      DB::transaction(function () use ($attributes,$post) {
-           $post->query()->update(
+        $created = $post->transaction(function () use ($attributes, $post) {
+            $post->query()->update(
                 [
-                    'title' => data_get($attributes,'title'),
-                    'body' => data_get($attributes,'body')
+                    'title' => data_get($attributes, 'title'),
+                    'body' => data_get($attributes, 'body')
                 ]
             );
 
             //sync the updated post with all the user ids
-            $post->users()->sync(data_get($attributes,'user_ids'));
+            $post->users()->sync(data_get($attributes, 'user_ids'));
 
-            if(!$post)
-            {
-                throw new postExcerption("error in updated",500);
-
+            if (!$post) {
+                throw new postExcerption("error in updated", 500);
             }
-
         });
-        return new JsonResource($post);
+        return new JsonResource($created);
     }
 
+    /*
+    * forceDelete() - delete the a resource 
+    * @return - null 
+    */
 
+    public function forceDelete(Post $post)
+    {
+
+        $post->delete();
+        //check if post not deleted send an excerption that post not delete
+        if(!$post)
+        {
+            throw new postExcerption("post not deleted ",500);
+        }
+    
+            
+        //else send a post deleted event
+        event(new postDeletedEvent($post));
+
+    
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class sendWelcomeEmail
+class sendPostDeletedEmail
 {
     /**
      * Create the event listener.
@@ -20,7 +20,6 @@ class sendWelcomeEmail
      */
     public function handle(object $event): void
     {
-        dd("sending welcome email");
-       
+        dd("post deleted succcefully");
     }
 }

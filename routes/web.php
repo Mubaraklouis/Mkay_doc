@@ -1,6 +1,9 @@
 <?php
 
+use App\Mail\welcomeEmail;
 use Illuminate\Support\Facades\Route;
+
+use function Termwind\render;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/send-mail',function()
+{
+    return  (new welcomeEmail())->content();
 });
