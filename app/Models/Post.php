@@ -26,7 +26,7 @@ class Post extends Model
     public function users()
     {
         //many to many relationship
-        return $this->belongsToMany(User::class,'posts_users','user_id','post_id');
+        return $this->belongsToMany(User::class);
     }
 
     //creating an accessor

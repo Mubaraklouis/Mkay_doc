@@ -49,9 +49,9 @@ class User extends Authenticatable
     *comments() :get all the comments by apecific user
     */
 
-    public function post()
+    public function posts()
     {
-      return $this->belongsToMany(Post::class,'posts_users','post_id','user_id');
+      return $this->belongsToMany(Post::class);
     }
 
     public function comments(){

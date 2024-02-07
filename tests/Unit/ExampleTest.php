@@ -1,9 +1,6 @@
 <?php
 
 namespace Tests\Unit;
-
-use App\Models\Post;
-use App\Repositories\PostRepository;
 use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase

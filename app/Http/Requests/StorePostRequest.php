@@ -23,8 +23,8 @@ class StorePostRequest extends FormRequest
     {
         return [
             "title" => ['required','unique:posts','max:255'],
-            "body"=> ['required','unique:posts']
-
+            "body"=> ['required','unique:posts'],
+            "user_ids" =>['required']
         ];
     }
 }

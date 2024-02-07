@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts_users', function (Blueprint $table) {
+        Schema::create('post_user', function (Blueprint $table) {
 
 
 
-            $table->foreignId('user_id')->index();
             $table->foreignId('post_id')->index();
+            $table->foreignId('user_id')->index();
             $table->foreign('post_id')->on('posts')->references('id')->casecadeOnDelete();
             $table->foreign('user_id')->on('users')->references('id')->casecadeOnDelete();
-            $table->primary(['user_id','post_id']);
+            $table->primary(['post_id','user_id']);
         });
     }
 
