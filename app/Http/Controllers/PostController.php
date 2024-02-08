@@ -34,17 +34,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request, PostRepository $postRepository)
     {
-        $post = [
-           
-            "title" => $request['title'],
-            "body" => $request['body'],
-            "user_ids" => $request['user_ids']
 
-        ];
 
-        $postRepository->store($post);
-        // dd($request->validated());
-        return new JsonResponse($post);
+        $postRepository->store($request->validated());
+        
+
     }
 
 

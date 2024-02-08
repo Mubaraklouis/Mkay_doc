@@ -2,15 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Events\postCreatedEvent;
 use App\Events\postDeletedEvent;
 use App\Exceptions\postExcerption;
 use App\Http\Resources\postResource;
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
-
 
 class PostRepository
 {
@@ -22,44 +19,16 @@ class PostRepository
     public function  store(array $attributes)
 
     {
-
-       $created= DB::transaction(function () use ($attributes) {
-
-           $post= Post::query()->create(
-                [
-                    "title" => data_get($attributes,'title'),
-                    "body"=>data_get($attributes,'body'),
-                ]
+        return
+            DB::transaction(
+                function () use ($attributes) {
+                    $post = Post::query()->create([
+                        "title" => data_get($attributes, 'title'),
+                        "body" => data_get($attributes, 'body')
+                    ]);
+                    $post->users()->attach(data_get($attributes, 'user_ids'));
+                }
             );
-
-            $post->users()->sync(data_get($attributes,'user_ids'));
-
-        });
-        return $created;
-
-        // DB::transaction(function () use ($attributes, $post) {
-
-        //     $post->query()->create(
-        //         [
-
-        //             'title' => data_get($attributes, 'title'),
-        //             'body' => data_get($attributes, 'body')
-        //         ]
-        //     );
-        //     //syncing the post with the user who created it
-        //     $post->users()->sync(data_get($attributes, 'user_ids'));
-        //     if (!$post) {
-        //         throw new postExcerption("post not created", 500);
-        //     }
-
-        //     //fire an event to the user with the email user createdv
-        //     event(new postCreatedEvent($post));
-        // });
-
-
-
-
-
     }
 
     /*
