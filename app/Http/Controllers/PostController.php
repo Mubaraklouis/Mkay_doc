@@ -9,7 +9,6 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Repositories\PostRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Request;
 
 
 class PostController extends Controller
@@ -32,12 +31,10 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      * @param StorePostRequest $request
      */
-    public function store(StorePostRequest $request, PostRepository $postRepository)
+    public function store(StorePostRequest $request, PostRepository $postRepository,Post $post)
     {
 
-
-        $postRepository->store($request->validated());
-        
+        $postRepository->store($request->validated(),$post);
 
     }
 

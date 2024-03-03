@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
 
 class welcomeEmail extends Mailable
 {
@@ -27,6 +28,8 @@ class welcomeEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+
+             new Address('mubarak@example.com','mubarak louis'),
             subject: 'Welcome Email',
         );
     }
@@ -37,13 +40,11 @@ class welcomeEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown:'mail.welcome-mail',
+            view:'mail.welcome-mail',
             with: [
-                'url' => 'google.com',
+                'sender' => 'mkaydocs@noreply.com',
             ]
         );
-
-      
     }
 
     /**

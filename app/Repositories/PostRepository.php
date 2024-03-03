@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Events\postCreatedEvent;
 use App\Events\postDeletedEvent;
 use App\Exceptions\postExcerption;
-use App\Http\Resources\postResource;
 use App\Models\Post;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
@@ -16,23 +16,31 @@ class PostRepository
     * @return postRepository
     */
 
-    public function  store(array $attributes)
+    public function  store(array $attributes , Post $post)
 
     {
-        return
-            DB::transaction(
-                function () use ($attributes) {
-                    $post = Post::query()->create([
-                        "title" => data_get($attributes, 'title'),
-                        "body" => data_get($attributes, 'body')
-                    ]);
-                    $post->users()->attach(data_get($attributes, 'user_ids'));
-                }
-            );
+
+           DB::transaction(
+            function () use ($attributes,$post) {
+                $post=Post::query()->create([
+                    "title" => data_get($attributes, 'title'),
+                    "body" => data_get($attributes, 'body')
+                ]);
+                //this line of code explain how to add to the pivot coloumn in the database
+                $post->users()->attach(data_get($attributes, 'user_ids'));
+            }
+        );
+
+        //check if the post is created an order to throw an exception
+
+        event(new postCreatedEvent($post));
+
+
+
     }
 
     /*
-    * store() updates new post in the database
+    * update() updates new post in the database
     * @return postRepository
     */
 

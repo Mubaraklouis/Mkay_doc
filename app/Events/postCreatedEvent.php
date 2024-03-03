@@ -28,6 +28,7 @@ class postCreatedEvent
 
     /**
      * Get the channels the event should broadcast on.
+     * the even is fired immediately after the post is created
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */

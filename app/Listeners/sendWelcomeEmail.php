@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Mail\welcomeEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+
 
 class sendWelcomeEmail
 {
@@ -16,11 +18,11 @@ class sendWelcomeEmail
     }
 
     /**
-     * Handle the event.
+     * this handler sends a welcome email when the post is created.
      */
     public function handle(object $event): void
     {
-        dd("sending welcome email");
-       
+        $email =new welcomeEmail();
+        $email->content();
     }
 }

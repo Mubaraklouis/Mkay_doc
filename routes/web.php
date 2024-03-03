@@ -1,6 +1,9 @@
 <?php
 
+use App\Listeners\sendWelcomeEmail;
 use App\Mail\welcomeEmail;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 use function Termwind\render;
@@ -22,5 +25,8 @@ Route::get('/', function () {
 
 Route::get('/send-mail',function()
 {
-    return  (new welcomeEmail())->content();
+    $user = User::factory()->make();
+    $email = new welcomeEmail();
+    Mail::to($user)->send($email);
+    return null;
 });
