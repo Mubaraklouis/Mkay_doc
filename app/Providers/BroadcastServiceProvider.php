@@ -12,6 +12,7 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        //calling the instance of a broadcats class
         Broadcast::routes();
 
         require base_path('routes/channels.php');

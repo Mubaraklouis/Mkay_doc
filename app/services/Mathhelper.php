@@ -10,4 +10,9 @@ class Mathhelper
 
     }
 
+    public static function Delete()
+    {
+        return "am a delete function";
+    }
+
 }

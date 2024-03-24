@@ -23,6 +23,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//calling the service provider for  test route
+
+Route::get('/math',function()
+{
+    $mathhelper =app()->make("mathhelper");
+
+    dd($mathhelper);
+});
+
 Route::get('/send-mail',function()
 {
     $user = User::factory()->make();

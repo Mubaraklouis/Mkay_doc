@@ -169,6 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\calculatorProvider::class
     ])->toArray(),
 
     /*

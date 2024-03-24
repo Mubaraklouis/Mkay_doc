@@ -53,8 +53,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-    
 
+ 
         return new commentResource($comment);
 
     }
