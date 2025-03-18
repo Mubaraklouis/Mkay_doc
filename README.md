@@ -1,8 +1,6 @@
 <h1 align="center">Real-Time Document Collaboration API</h1>
 
-<p align="center">
-  <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo" width="100">
-</p>
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
